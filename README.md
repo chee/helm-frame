@@ -40,4 +40,4 @@ sure ! fix my code ! make me cry ! open for PRs and discussion in the issues
   - width and height
 * move somewhere warm
 * make some friends in the movie biz
-* have ryan gosling to breath on my skin
+* pay ryan gosling to breath on my skin
