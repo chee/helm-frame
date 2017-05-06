@@ -1,4 +1,4 @@
-;;; helm-frame.el --- open helm buffers in a dedicated frame
+;;; helm-frame.el --- open helm buffers in a dedicated frame -*- lexical-binding: t -*-
 
 ;; copyright © 2017 chee
 ;; author: chee <chee@snake.dog>
@@ -28,27 +28,86 @@
 
 ;;; code:
 
+(defun hf--half (number) "Return half a NUMBER." (/ number 2))
+
+(defun hf--current-monitor (&optional frame)
+  "Get the current monitor.
+
+If FRAME is provided, then get display that frame is on."
+  (let (current-monitor)
+    (dolist (monitor (display-monitor-attributes-list) current-monitor)
+      (if
+        (member (or frame (window-frame)) (assoc 'frames monitor))
+        (setq current-monitor monitor)))))
+
+(defun hf--monitor-pixel-width (&optional monitor)
+  "Return pixel width of MONITOR."
+  (nth 3 (assoc 'workarea (or monitor (frame-monitor-attributes)))))
+
+(defun hf--monitor-pixel-height (&optional monitor)
+  "Return pixel height of MONITOR."
+  (nth 4 (assoc 'workarea (or monitor (frame-monitor-attributes)))))
+
+(defun hf--center-frame (frame)
+  "Center FRAME on current monitor."
+  (let*
+    ((monitor (frame-monitor-attributes frame))
+      (half-monitor-width (hf--half (hf--monitor-pixel-width monitor)))
+      (half-frame-width (hf--half (frame-pixel-width frame)))
+      (half-monitor-height (hf--half (hf--monitor-pixel-height monitor)))
+      (half-frame-height (hf--half (frame-pixel-height frame))))
+
+    (set-frame-position frame
+      (- half-monitor-width half-frame-width)
+      (- half-monitor-height half-frame-height))))
+
+
+(defun hf--frame-named (name)
+  "Return frame called NAME."
+  (interactive
+    (let*
+      ((frame-names-alist (make-frame-names-alist))
+        (default (car (car frame-names-alist)))
+        (input
+          (completing-read
+            (format "Select Frame (default %s): " default)
+            frame-names-alist nil t nil 'frame-name-history)))
+      (if (= (length input) 0)
+        (list default)
+        (list input))))
+  (let* ((frame-names-alist (make-frame-names-alist))
+          (frame (cdr (assoc name frame-names-alist))))
+    (if frame frame nil)))
+
+
 (defun @helm-frame/create ()
+  "Create a new helm-frame."
   (let
     ((old-frame (window-frame))
       (frame (make-frame '((name . "Helm") (width . 80) (height . 20)))))
     (set-frame-width frame 80)
     (set-frame-height frame 20)
-    (center-frame frame)
+    (hf--center-frame frame)
     (lower-frame frame)
     (select-frame-set-input-focus old-frame) frame))
 
 (defun @helm-frame/frame ()
-  (let ((frame (or (frame-named "Helm") (@helm-frame/create))))
+  "Return the current frame, or create a new one."
+  (let ((frame (or (hf--frame-named "Helm") (@helm-frame/create))))
     (set-frame-width frame 80)
     (set-frame-height frame 20)
-    (center-frame frame)
+    (hf--center-frame frame)
     frame))
 
 (defun @helm-frame/window (window)
+  "Return helm-frame's window.
+
+Takes WINDOW for compatability with helm-split-window-preferred-function."
   (frame-root-window (@helm-frame/frame)))
 
 (defun @helm-frame/delete ()
+  "Throw the frame down a very deep well."
   (delete-frame (@helm-frame/frame)))
 
 (provide 'helm-frame)
+;;; helm-frame.el ends here
