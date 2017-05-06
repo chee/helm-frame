@@ -33,11 +33,20 @@ when you have helm all installed sweet to the beat las vegas, stick helm-frame.e
 
 sure ! fix my code ! make me cry ! open for PRs and discussion in the issues
 
+## limitations
+
+* won't be great on tiling window managers without the ability to class it as a
+  floating window
+* will switch space if emacs is in macOS full screen mode (is there a way to
+  tell macOS that the helm frame is a popup window?)
+
+
 ## todo
 
 * allow customization of:
   - window title
   - width and height
+* handle the limitation re: full screen mode on macOS
 * move somewhere warm
 * make some friends in the movie biz
 * pay ryan gosling to breath on my skin
