@@ -29,9 +29,9 @@
 
 ;;; code:
 
-(defun hf--half (number) "Return half a NUMBER." (/ number 2))
+(defun helm-frame--half (number) "Return half a NUMBER." (/ number 2))
 
-(defun hf--current-monitor (&optional frame)
+(defun helm-frame--current-monitor (&optional frame)
   "Get the current monitor.
 
 If FRAME is provided, then get display that frame is on."
@@ -41,29 +41,29 @@ If FRAME is provided, then get display that frame is on."
         (member (or frame (window-frame)) (assoc 'frames monitor))
         (setq current-monitor monitor)))))
 
-(defun hf--monitor-pixel-width (&optional monitor)
+(defun helm-frame--monitor-pixel-width (&optional monitor)
   "Return pixel width of MONITOR."
   (nth 3 (assoc 'workarea (or monitor (frame-monitor-attributes)))))
 
-(defun hf--monitor-pixel-height (&optional monitor)
+(defun helm-frame--monitor-pixel-height (&optional monitor)
   "Return pixel height of MONITOR."
   (nth 4 (assoc 'workarea (or monitor (frame-monitor-attributes)))))
 
-(defun hf--center-frame (frame)
+(defun helm-frame--center-frame (frame)
   "Center FRAME on current monitor."
   (let*
     ((monitor (frame-monitor-attributes frame))
-      (half-monitor-width (hf--half (hf--monitor-pixel-width monitor)))
-      (half-frame-width (hf--half (frame-pixel-width frame)))
-      (half-monitor-height (hf--half (hf--monitor-pixel-height monitor)))
-      (half-frame-height (hf--half (frame-pixel-height frame))))
+      (half-monitor-width (helm-frame--half (helm-frame--monitor-pixel-width monitor)))
+      (half-frame-width (helm-frame--half (frame-pixel-width frame)))
+      (half-monitor-height (helm-frame--half (helm-frame--monitor-pixel-height monitor)))
+      (half-frame-height (helm-frame--half (frame-pixel-height frame))))
 
     (set-frame-position frame
       (- half-monitor-width half-frame-width)
       (- half-monitor-height half-frame-height))))
 
 
-(defun hf--frame-named (name)
+(defun helm-frame--frame-named (name)
   "Return frame called NAME."
   (interactive
     (let*
@@ -88,16 +88,16 @@ If FRAME is provided, then get display that frame is on."
       (frame (make-frame '((name . "Helm") (width . 80) (height . 20)))))
     (set-frame-width frame 80)
     (set-frame-height frame 20)
-    (hf--center-frame frame)
+    (helm-frame--center-frame frame)
     (lower-frame frame)
     (select-frame-set-input-focus old-frame) frame))
 
 (defun @helm-frame/frame ()
   "Return the current frame, or create a new one."
-  (let ((frame (or (hf--frame-named "Helm") (@helm-frame/create))))
+  (let ((frame (or (helm-frame--frame-named "Helm") (@helm-frame/create))))
     (set-frame-width frame 80)
     (set-frame-height frame 20)
-    (hf--center-frame frame)
+    (helm-frame--center-frame frame)
     frame))
 
 (defun @helm-frame/window (window)
