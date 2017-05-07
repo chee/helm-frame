@@ -4,6 +4,7 @@
 ;; author: chee <chee@snake.dog>
 ;; keywords: lisp, helm, popup, frame
 ;; version: 0.4.7
+;; package-requires: ((emacs "24.4"))
 
 ;; this program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
