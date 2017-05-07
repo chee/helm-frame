@@ -82,7 +82,7 @@ If FRAME is provided, then get display that frame is on."
 
 
 ;;;###autoload
-(defun @helm-frame/create ()
+(defun helm-frame/create ()
   "Create a new helm-frame."
   (let
     ((old-frame (window-frame))
@@ -94,25 +94,25 @@ If FRAME is provided, then get display that frame is on."
     (select-frame-set-input-focus old-frame) frame))
 
 ;;;###autoload
-(defun @helm-frame/frame ()
+(defun helm-frame/frame ()
   "Return the current frame, or create a new one."
-  (let ((frame (or (helm-frame--frame-named "Helm") (@helm-frame/create))))
+  (let ((frame (or (helm-frame--frame-named "Helm") (helm-frame/create))))
     (set-frame-width frame 80)
     (set-frame-height frame 20)
     (helm-frame--center-frame frame)
     frame))
 
 ;;;###autoload
-(defun @helm-frame/window (window)
+(defun helm-frame/window (window)
   "Return helm-frame's window.
 
-Takes WINDOW for compatability with helm-split-window-preferred-function."
-  (frame-root-window (@helm-frame/frame)))
+Takes WINDOW for compatability with 'helm-split-window-preferred-function'."
+  (frame-root-window (helm-frame/frame)))
 
 ;;;###autoload
-(defun @helm-frame/delete ()
+(defun helm-frame/delete ()
   "Throw the frame down a very deep well."
-  (delete-frame (@helm-frame/frame)))
+  (delete-frame (helm-frame/frame)))
 
 (provide 'helm-frame)
 ;;; helm-frame.el ends here
