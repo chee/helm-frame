@@ -74,9 +74,10 @@ If FRAME is provided, then get display that frame is on."
       (if (= (length input) 0)
         (list default)
         (list input))))
-  (let* ((frame-names-alist (make-frame-names-alist))
-          (frame (cdr (assoc name frame-names-alist))))
-    (if frame frame nil)))
+  (let*
+    ((frame-names-alist (make-frame-names-alist))
+      (frame (cdr (assoc name frame-names-alist))))
+    frame))
 
 
 (defun helm-frame-create ()
