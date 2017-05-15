@@ -81,7 +81,7 @@ If FRAME is provided, then get display that frame is on."
     (if frame frame nil)))
 
 
-(defun helm-frame/create ()
+(defun helm-frame-create ()
   "Create a new helm-frame."
   (let
     ((old-frame (window-frame))
@@ -92,7 +92,7 @@ If FRAME is provided, then get display that frame is on."
     (lower-frame frame)
     (select-frame-set-input-focus old-frame) frame))
 
-(defun helm-frame/frame ()
+(defun helm-frame-frame ()
   "Return the current frame, or create a new one."
   (let ((frame (or (helm-frame--frame-named "Helm") (helm-frame/create))))
     (set-frame-width frame 80)
@@ -100,13 +100,13 @@ If FRAME is provided, then get display that frame is on."
     (helm-frame--center-frame frame)
     frame))
 
-(defun helm-frame/window (window)
+(defun helm-frame-window (window)
   "Return helm-frame's window.
 
 Takes WINDOW for compatability with 'helm-split-window-preferred-function'."
   (frame-root-window (helm-frame/frame)))
 
-(defun helm-frame/delete ()
+(defun helm-frame-delete ()
   "Throw the frame down a very deep well."
   (delete-frame (helm-frame/frame)))
 
