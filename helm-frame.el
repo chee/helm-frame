@@ -28,18 +28,17 @@
 ;;   (setq helm-split-window-preferred-function '@helm-frame/window)
 
 ;;; code:
+(require 'cl-lib)
 
 (defun helm-frame--half (number) "Return half a NUMBER." (/ number 2))
 
 (defun helm-frame--current-monitor (&optional frame)
   "Get the current monitor.
-
 If FRAME is provided, then get display that frame is on."
-  (let (current-monitor)
-    (dolist (monitor (display-monitor-attributes-list) current-monitor)
-      (if
-        (member (or frame (window-frame)) (assoc 'frames monitor))
-        (setq current-monitor monitor)))))
+  (cl-find-if
+    (lambda (monitor)
+      (member (or frame (window-frame)) (assoc 'frames monitor)))
+    (display-monitor-attributes-list)))
 
 (defun helm-frame--monitor-pixel-width (&optional monitor)
   "Return pixel width of MONITOR."
@@ -61,7 +60,6 @@ If FRAME is provided, then get display that frame is on."
     (set-frame-position frame
       (- half-monitor-width half-frame-width)
       (- half-monitor-height half-frame-height))))
-
 
 (defun helm-frame--frame-named (name)
   "Return frame called NAME."
