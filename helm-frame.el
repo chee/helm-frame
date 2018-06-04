@@ -23,9 +23,9 @@
 
 ;; to configure, (require 'helm-frame) and add lines like these to your init:
 ;;
-;;   (add-hook 'helm-after-action-hook '@helm-frame/delete)
-;;   (add-hook 'helm-cleanup-hook '@helm-frame/delete)
-;;   (setq helm-split-window-preferred-function '@helm-frame/window)
+;;   (add-hook 'helm-after-action-hook 'helm-frame-delete)
+;;   (add-hook 'helm-cleanup-hook 'helm-frame-delete)
+;;   (setq helm-split-window-preferred-function 'helm-frame-window)
 
 ;;; code:
 (require 'cl-lib)
@@ -93,7 +93,7 @@ If FRAME is provided, then get display that frame is on."
 
 (defun helm-frame-frame ()
   "Return the current frame, or create a new one."
-  (let ((frame (or (helm-frame--frame-named "Helm") (helm-frame/create))))
+  (let ((frame (or (helm-frame--frame-named "Helm") (helm-frame-create))))
     (set-frame-width frame 80)
     (set-frame-height frame 20)
     (helm-frame--center-frame frame)
@@ -103,11 +103,11 @@ If FRAME is provided, then get display that frame is on."
   "Return helm-frame's window.
 
 Takes WINDOW for compatability with 'helm-split-window-preferred-function'."
-  (frame-root-window (helm-frame/frame)))
+  (frame-root-window (helm-frame-frame)))
 
 (defun helm-frame-delete ()
   "Throw the frame down a very deep well."
-  (delete-frame (helm-frame/frame)))
+  (delete-frame (helm-frame-frame)))
 
 (provide 'helm-frame)
 ;;; helm-frame.el ends here
