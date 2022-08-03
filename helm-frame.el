@@ -1,7 +1,7 @@
 ;;; helm-frame.el --- open helm buffers in a dedicated frame -*- lexical-binding: t -*-
 
 ;; copyright © 2017 chee
-;; author: chee <chee@snake.dog>
+;; author: chee <yay@chee.party>
 ;; keywords: lisp, helm, popup, frame
 ;; version: 0.4.8
 ;; package-requires: ((emacs "24.4"))

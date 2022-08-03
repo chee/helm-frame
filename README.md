@@ -5,13 +5,13 @@ be the envy of your loved ones and hide from them in the kitchen cupboards
 
 with a property configurated emacs like this:
 
-![emacs](https://snake.dog/s/fokit/emacs.png)
+![emacs](https://chee.party/s/fokit/emacs.png)
 
 pressing <kbd>M-x</kbd> will give you, wait for it
 
 wait for iiiiiit~
 
-![helm-frame](https://snake.dog/s/velux/helm-frame.png)
+![helm-frame](https://chee.party/s/velux/helm-frame.png)
 
 this!
 
